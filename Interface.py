@@ -1,5 +1,6 @@
 from P2PPlatform import Network
 from P2PPlatform import Peer
+from P2PPlatform import Message
 import socket
 import subprocess
 
@@ -9,7 +10,7 @@ class Interface(object):
 		self.network = network
 		
 		self.tagDict = tagDict
-		self.receivingCode = False
+
 		
 		
 	def run(self):
@@ -31,10 +32,6 @@ class Interface(object):
 				self.name()
 			elif command == "/addPort":
 				self.addPort()
-			elif command == "/sendCode":
-				self.parseAndSend()
-			elif command == "/receiveCode":
-				self.receivingCode = True
 			else:
 				self.network.sender(command)
 
@@ -50,50 +47,8 @@ class Interface(object):
 	
 	#######Needed for network creation#########
 	
-	def parseAndSend(self):
-		fileName = raw_input("Please enter the filename to send: ")
-		toSendFile = self.programParser(fileName)
-		self.network.sender("<code> " + toSendFile)
-		
-	def programParser(self, filename):
-		openFile = open(filename,'r')
-		string = openFile.read()
-		openFile.close()
-		return string
-		
-		
-		
-		
-	#first function upon netmessage receiving a <code> tag...	
-	def receiveCode(self, peer, code):
-		self.receivingCode = False
-		if peer != None:
-			print("Code received from " + peer)
-		fileName = raw_input("Please enter name of the file to be created for the code: ")
-		self.programCreater(fileName,code)
-		run = raw_input("Run the file? y/n")
-		if run == "y" or run == "Y" or run == "Yes":
-			result = self.runProgram(fileName)
-			print(result)
-			sendYN = raw_input("Send the result? y/n")
-			if sendYN == "y" or run == "Y" or run == "Yes":
-				self.network.sender(result)
+
 				
-				
-				
-	#creates the file
-	def programCreater(self, filename,code):
-		openFile = open(filename,'w')
-		openFile.write(code)
-		openFile.close()
-		
-		
-	#runs a python program
-	def runProgram(self,fileName):
-		#don't let shell = true, it allows shell injection
-		process = subprocess.check_output(["python",fileName])
-		return process		
-		
 		
 		
 		
@@ -164,12 +119,10 @@ class Interface(object):
 		self.network.connect(peerIP, peerPort)
 		
 	def netMessage(self, message, peer = None):
-		if type(message) is str and message[:6] == "<code>" and self.receivingCode:
-			self.receiveCode(peer,message[6:])
 		if peer is not None:
 			print("From {0!s}: {1!s}".format(peer,message))
 		else:
-			print(str(message))
+			print(str(message.contents))
 	def approver(self):
 		"""
 		Moves a peer that has connected to this network instance from the
