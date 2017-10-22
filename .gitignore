@@ -1,3 +1,7 @@
+# Stuff specifically added by dev team
+.DS_Store
+P2PPlatform
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
