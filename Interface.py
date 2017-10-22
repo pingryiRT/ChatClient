@@ -139,20 +139,20 @@ class Interface(object):
 			i += 1
 ############## END OF NETWORK FUNCTION ###########
 ######### ADDITIONAL ########
-	
-	
+
+
 	def printThis(self, toPrint, type = None):
 		"""
-		Very simple method -- if type is none it prints toPrint, otherwise it returns 
+		Very simple method -- if type is none it prints toPrint, otherwise it returns
 		raw user input with toPrint being used as a prompt
 		"""
 		if type is not None:
 			return raw_input(toPrint)
 		else:
-			print toPrint
-			
-		
-	def name(self): 
+			print(toPrint)
+
+
+	def name(self):
 		"""
 		Gives a peer a unique name identifier (determined by the input of the user)
 		The name will be accessible through peer.name
