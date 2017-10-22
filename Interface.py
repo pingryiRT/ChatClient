@@ -120,7 +120,7 @@ class Interface(object):
 		if peer is not None:
 			print("From {0!s}: {1!s}".format(peer,message))
 		else:
-			print(str(message.contents))
+			print(message.contents)
 	def approver(self):
 		"""
 		Moves a peer that has connected to this network instance from the
