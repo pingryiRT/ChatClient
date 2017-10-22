@@ -5,14 +5,12 @@ import socket
 import subprocess
 
 class Interface(object):
-	
-	def __init__(self, tagDict, network = None):
-		self.network = network
-		
-		self.tagDict = tagDict
 
-		
-		
+	def __init__(self, network = None):
+		self.network = network
+
+
+
 	def run(self):
 	#########
 	## TODO add in something to allow checking the network's variable box for missed messages
@@ -36,88 +34,88 @@ class Interface(object):
 				self.network.sender(command)
 
 		# Close down the network
-		
+
 		########
 		# TODO allow an interface only shutdown, and leave the network running (set the required alerter to none)
 		#########
 		self.network.shutdown()
 		self.network = None
-	
-	############### INTERFACE FUNCTION SECTION ###############
-	
-	#######Needed for network creation#########
-	
 
-				
-		
-		
-		
+	############### INTERFACE FUNCTION SECTION ###############
+
+	#######Needed for network creation#########
+
+
+
+
+
+
 	def getOwnIP(self):
 		""" Attempts to autodetect the user's LAN IP address, and falls back to manual
 		entry when autodetect fails.
-	
+
 		See http://stackoverflow.com/questions/166506 for details. """
 		# Send a packet to google who will reply to our IP
 		s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 		s.connect(('google.com', 53))
 		IP = s.getsockname()[0]
-	
+
 		# Make sure the detected IP looks valid, and if not fallback
 		while not self.validateIP(IP):
 			IP = raw_input("Please enter a valid IP address: ")
-	
+
 		return IP
-	
-	
+
+
 	def validateIP(self, IP):
 		'''	Validates an IP address before joining network'''
 		sections = IP.split(".") #Creating sections list with IP address split up each period
-	
+
 		if len(sections) != 4: #Check for 3 periods
 			return False
-	
+
 		for section in sections:
 			if not section.isdigit(): #Making sure all contents are ints
 				return False
 			section = int(section)
 			if section < 0 or section > 255: #validate range of the number
 				return False
-	
+
 		if sections[0] == "127": #not loop-back address
 			return False
-	
+
 		return True
-	
-	
-	
+
+
+
 	def getPort(self):
 		"""
 		Interactively determine a port. Proposes default, but allows overriding.
 		"""
-	
+
 		DEFAULT = 12345
-	
+
 		port = raw_input("Default port: {}. Enter to continue or type an alternate. ".format(DEFAULT))
-	
+
 		if port == "":
 			return DEFAULT
-	
+
 		return int(port)
-	
+
 	##########END OF NETWORK CREATION #############
-	
-	
-	
-	
+
+
+
+
 	########## NEEDED FOR NETWORK FUNCTION ##########
-	
+
 	def connector(self):
 		""" Prompts user for data to connect to another peer, and establishes the connection.
 		Warning. Uses global variable myNetwork."""
 		peerIP = raw_input("Enter it your peer's IP address: ")
 		peerPort = self.getPort()
 		self.network.connect(peerIP, peerPort)
-		
+
 	def netMessage(self, message, peer = None):
 		if peer is not None:
 			print("From {0!s}: {1!s}".format(peer,message))
@@ -127,9 +125,9 @@ class Interface(object):
 		"""
 		Moves a peer that has connected to this network instance from the
 		unconfirmedList to peerList, where messages can be sent and received.
-	
+
 		Warning. Uses global variable myNetwork."""
-		
+
 		i = 0
 		while i < len(self.network.unconfirmedList):
 			peer = self.network.unconfirmedList[i]
@@ -162,8 +160,8 @@ class Interface(object):
 		index = int(self.printThis("Please enter the index of the peer you would like to name: \n", type = "input"))
 		name = self.printThis("Please enter the name of the peer you would like to name: \n", type = "input")
 		self.network.peerList[index].name = name
-		
-		
+
+
 	def addPort(self):
 		"""
 		Adds a server port to a peer, the peer which has the port added, and the port number
@@ -174,10 +172,9 @@ class Interface(object):
 		index = int(self.printThis("Please enter the index of the peer you would like to add a port to: \n", type = "input"))
 		port = int(self.printThis("Please enter the port for the peer: \n", type = "input"))
 		self.network.peerList[index].port = port
-		
+
 	#### END OF ADDITIONAL #######
-	
-	
-	
+
+
+
 	############## END OF INTERFACE FUNTIONS ##################
-	
