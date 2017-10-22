@@ -2,7 +2,6 @@ from P2PPlatform import Network
 from P2PPlatform import Peer
 from P2PPlatform import Message
 import socket
-import subprocess
 
 class Interface(object):
 
