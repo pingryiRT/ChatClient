@@ -4,6 +4,7 @@ from P2PPlatform import Network
 
 
 ######################## MAIN PROGRAM BELOW ##################################
+myInterface = Interface()
 myIP = myInterface.getOwnIP()
 print ("Detected IP: " + myIP)
 print("I'll need your port.")
