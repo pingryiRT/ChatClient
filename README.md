@@ -1,8 +1,10 @@
 # ChatClient
-A text-based instant messaging client, built off of our P2P network.
+A text-based instant messaging client, built on P2PPlatform.
 
 # Usage
-Not currently functional. For a functional version, check out our ChatClient project.
+Make sure that P2P Platform is installed and on your `$PYTHONPATH`.
+
+Then `cd` into the project directory and launch `python Interface.py`
 
 # Goals
 
