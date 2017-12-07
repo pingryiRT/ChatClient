@@ -1,6 +1,7 @@
 from P2PPlatform import Network
 from P2PPlatform import Peer
 from P2PPlatform import Message
+from P2PPlatform import Alerter
 import socket
 
 class Interface(object):
@@ -14,7 +15,7 @@ class Interface(object):
 	#########
 	## TODO add in something to allow checking the network's variable box for missed messages
 	#########
-		self.network.alerters.append(self.netMessage)
+		self.network.alerters.append(Alerter.Alerter(self.netMessage))
 		adamNode = self.printThis("Would you like to start a new network? y/n ", type = "input")
 		if adamNode == "" or adamNode[0].lower()!= "y":
 			self.connector()
